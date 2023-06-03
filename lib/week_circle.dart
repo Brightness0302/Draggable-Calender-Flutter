@@ -4,9 +4,14 @@ import 'date_circle.dart';
 
 class WeekCircle extends StatelessWidget {
   final DateTime selectedDate;
+  final double rotationAngle;
   final Function(DateTime) init;
 
-  const WeekCircle({key, required this.selectedDate, required this.init})
+  const WeekCircle(
+      {key,
+      required this.selectedDate,
+      required this.rotationAngle,
+      required this.init})
       : super(key: key);
 
   @override
@@ -33,9 +38,12 @@ class WeekCircle extends StatelessWidget {
             ),
           ),
           child: Stack(
-            children: List.generate(7, (index) {
+            children: List.generate(14, (index) {
               return DateCircle(
-                  index: index, selectedDate: selectedDate, init: init);
+                  index: index,
+                  selectedDate: selectedDate,
+                  rotationAngle: rotationAngle,
+                  init: init);
             }),
           ),
         );

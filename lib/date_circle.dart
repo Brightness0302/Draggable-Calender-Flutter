@@ -4,6 +4,7 @@ import 'dart:math';
 class DateCircle extends StatelessWidget {
   final DateTime selectedDate;
   final int index;
+  final double rotationAngle;
   final Function(DateTime) init;
   final List<String> weekString = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
@@ -11,8 +12,16 @@ class DateCircle extends StatelessWidget {
       {key,
       required this.index,
       required this.selectedDate,
+      required this.rotationAngle,
       required this.init})
       : super(key: key);
+
+  bool isSameDay(DateTime t1, DateTime t2) {
+    if (t1.day == t2.day && t1.month == t2.month && t1.year == t2.year) {
+      return true;
+    }
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +32,16 @@ class DateCircle extends StatelessWidget {
 
     final radius = (containerWidth - dateRadius - gap - 5) / 2;
     final today = DateTime.now();
-    final start = today.subtract(Duration(days: today.weekday - 1));
+    final start =
+        selectedDate.subtract(Duration(days: selectedDate.weekday % 7));
 
-    final day = start.add(Duration(days: index));
-    final isSelected = day.day == selectedDate.day;
-    final isToday = day.day == today.day;
+    double gapRotationAngle = 12.5;
+
+    final day = start.add(Duration(
+        days:
+            (index >= 7 ? (rotationAngle > 0 ? (index - 14) : index) : index)));
+    final isSelected = isSameDay(day, selectedDate);
+    final isToday = isSameDay(day, today);
     return GestureDetector(
       onTap: () {
         init(day);
@@ -36,10 +50,14 @@ class DateCircle extends StatelessWidget {
         children: [
           Positioned(
             top: (containerWidth - dateRadius) -
-                cos((index * 360 / 14 + 13) * pi / 180) * (radius * 2 - 20),
+                cos((index * 360 / 14 + gapRotationAngle) * pi / 180 +
+                        rotationAngle) *
+                    (radius * 2 - 20),
             left: -dateRadius +
                 gap +
-                sin((index * 360 / 14 + 13) * pi / 180) * (radius * 2 - 20),
+                sin((index * 360 / 14 + gapRotationAngle) * pi / 180 +
+                        rotationAngle) *
+                    (radius * 2 - 20),
             child: SizedBox(
               width: dateRadius * 2,
               height: dateRadius * 2,
@@ -47,7 +65,7 @@ class DateCircle extends StatelessWidget {
                 visible: isToday ? false : true,
                 child: Center(
                   child: Text(
-                    weekString[index],
+                    weekString[index % 7],
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight:
@@ -61,10 +79,16 @@ class DateCircle extends StatelessWidget {
           ),
           Positioned(
             top: (containerWidth - dateRadius) -
-                cos((index * 360 / 14 + 13) * pi / 180) * radius * 2,
+                cos((index * 360 / 14 + gapRotationAngle) * pi / 180 +
+                        rotationAngle) *
+                    radius *
+                    2,
             left: -dateRadius +
                 gap +
-                sin((index * 360 / 14 + 13) * pi / 180) * radius * 2,
+                sin((index * 360 / 14 + gapRotationAngle) * pi / 180 +
+                        rotationAngle) *
+                    radius *
+                    2,
             child: Container(
               width: dateRadius * 2,
               height: dateRadius * 2,
