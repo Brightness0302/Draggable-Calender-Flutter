@@ -37,7 +37,7 @@ class DateCircle extends StatelessWidget {
 
     double gapRotationAngle = 12.5;
 
-    final day = start.add(Duration(
+    DateTime day = start.add(Duration(
         days:
             (index >= 7 ? (rotationAngle > 0 ? (index - 14) : index) : index)));
     final isSelected = isSameDay(day, selectedDate);

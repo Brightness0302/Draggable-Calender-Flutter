@@ -123,6 +123,7 @@ class _DateSelector extends State<DateSelector> {
         width: double.infinity,
         child: GestureDetector(
           onPanUpdate: (DragUpdateDetails details) {
+            if (timer.isActive) return;
             Offset currentPos = details.localPosition;
             double length =
                 (currentPos.dx - lastPos.dx) * (currentPos.dx - lastPos.dx) +
@@ -135,12 +136,14 @@ class _DateSelector extends State<DateSelector> {
             }
           },
           onPanStart: (DragStartDetails details) {
+            if (timer.isActive) return;
             lastPos = details.localPosition;
             double tempdeltaLastRotationAngle =
                 atan2(lastPos.dy - centerPos.dy, lastPos.dx - centerPos.dx);
             setDeltaLastRotationAngle(tempdeltaLastRotationAngle);
           },
           onPanEnd: (DragEndDetails details) {
+            if (timer.isActive) return;
             startTimer();
           },
           child: Row(
