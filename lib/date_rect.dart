@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class DateRect extends StatelessWidget {
   final String seletedDateLabel;
 
-  DateRect({required this.seletedDateLabel});
+  const DateRect({key, required this.seletedDateLabel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

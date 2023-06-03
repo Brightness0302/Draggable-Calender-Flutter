@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'DateRect.dart';
-import 'WeekCircle.dart';
+import 'date_rect.dart';
+import 'week_circle.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  @override
+  const MyApp({key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Date Selector Demo',
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Date Selector Demo'),
+          title: const Text('Date Selector Demo'),
         ),
-        body: Center(
+        body: const Center(
           child: DateSelector(),
         ),
       ),
@@ -26,7 +29,10 @@ class MyApp extends StatelessWidget {
 
 class DateSelector extends StatefulWidget {
   @override
-  _DateSelector createState() => _DateSelector();
+  const DateSelector({key}) : super(key: key);
+
+  @override
+  State<DateSelector> createState() => _DateSelector();
 }
 
 class _DateSelector extends State<DateSelector> {
