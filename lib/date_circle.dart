@@ -15,7 +15,7 @@ class DateCircle extends StatelessWidget {
       required this.rotationAngle,
       required this.init})
       : super(key: key);
-
+  //check that two dates are same
   bool isSameDay(DateTime t1, DateTime t2) {
     if (t1.day == t2.day && t1.month == t2.month && t1.year == t2.year) {
       return true;
@@ -48,6 +48,7 @@ class DateCircle extends StatelessWidget {
       },
       child: Stack(
         children: [
+          //showing first charactor of weekday for each date
           Positioned(
             top: (containerWidth - dateRadius) -
                 cos((index * 360 / 14 + gapRotationAngle) * pi / 180 +
@@ -77,6 +78,7 @@ class DateCircle extends StatelessWidget {
               ),
             ),
           ),
+          // showing day of each date
           Positioned(
             top: (containerWidth - dateRadius) -
                 cos((index * 360 / 14 + gapRotationAngle) * pi / 180 +
@@ -100,9 +102,8 @@ class DateCircle extends StatelessWidget {
                 child: Text(
                   '${day.day}',
                   style: TextStyle(
-                    fontSize: 12,
-                    fontWeight:
-                        isSelected ? FontWeight.bold : FontWeight.normal,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
                     color: isSelected ? Colors.white : Colors.black,
                   ),
                 ),

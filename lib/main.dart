@@ -79,6 +79,7 @@ class _DateSelector extends State<DateSelector> {
     });
   }
 
+  //start timer after droping event for finger until initialized
   void startTimer() {
     const oneSec = Duration(milliseconds: 10);
     timer = Timer.periodic(
@@ -109,16 +110,19 @@ class _DateSelector extends State<DateSelector> {
 
   @override
   Widget build(BuildContext context) {
+    //total width for customized calender
     final containerWidth = (MediaQuery.of(context).size.width - 64.0) / 3;
     Offset centerPos = Offset(containerWidth * 2, containerWidth);
     return Container(
-      margin: const EdgeInsets.all(32.0),
+      margin: const EdgeInsets.all(32.0), //margin
       child: SizedBox(
         width: double.infinity,
         child: GestureDetector(
+          //dragging event for gesture
           onPanUpdate: (DragUpdateDetails details) {
             if (timer.isActive) return;
             Offset currentPos = details.localPosition;
+            if (currentPos.dx < centerPos.dx) return;
             double length =
                 (currentPos.dx - lastPos.dx) * (currentPos.dx - lastPos.dx) +
                     (currentPos.dy - lastPos.dy) * (currentPos.dy - lastPos.dy);
@@ -129,6 +133,7 @@ class _DateSelector extends State<DateSelector> {
                   deltaCurrentRotationAngle - deltaLastRotationAngle);
             }
           },
+          //start dragging event for gesture
           onPanStart: (DragStartDetails details) {
             if (timer.isActive) return;
             lastPos = details.localPosition;
@@ -137,13 +142,16 @@ class _DateSelector extends State<DateSelector> {
             setDeltaLastRotationAngle(tempdeltaLastRotationAngle);
           },
           onPanEnd: (DragEndDetails details) {
+            //drop event for gesture
             if (timer.isActive) return;
             startTimer();
           },
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
+              //Rect on the Left side showing selected date
               DateRect(seletedDateLabel: seletedDateLabel),
+              //Half Circle on the Right side showing a week data
               WeekCircle(
                   selectedDate: selectedDate,
                   rotationAngle: rotationAngle,

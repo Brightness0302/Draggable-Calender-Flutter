@@ -37,6 +37,7 @@ class WeekCircle extends StatelessWidget {
             ),
           ),
           child: Stack(
+            // describe two weeks(previous or next week and current week)
             children: List.generate(14, (index) {
               return DateCircle(
                   index: index,
