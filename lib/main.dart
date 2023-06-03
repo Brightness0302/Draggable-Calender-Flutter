@@ -61,12 +61,6 @@ class _DateSelector extends State<DateSelector> {
     });
   }
 
-  setSelectedDate(DateTime t) {
-    setState(() {
-      selectedDate = t;
-    });
-  }
-
   setRotationAngle(double t) {
     setState(() {
       rotationAngle = t;
